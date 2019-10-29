@@ -2,6 +2,7 @@ name: BottomlessChest
 version: 1.0
 main: com.creeperface.nukkitx.bottomlesschest.BottomlessChest
 api: ["1.0.0"]
+depemd: ["KotlinLib"]
 load: STARTUP
 description: Simple plugin to make chest bottomless
 author: CreeperFace

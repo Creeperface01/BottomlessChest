@@ -1,5 +1,6 @@
 package com.creeperface.nukkitx.bottomlesschest.inventory
 
+import cn.nukkit.Player
 import cn.nukkit.blockentity.BlockEntityChest
 import cn.nukkit.inventory.ChestInventory
 import cn.nukkit.item.Item
@@ -48,6 +49,12 @@ class BottomlessInventory(chest: BlockEntityChest, contents: Map<Int, Item>) : C
             super.setContents(items)
         } finally {
             allowChange = false
+        }
+    }
+
+    override fun sendContents(vararg players: Player?) {
+        this.slots.forEach { (index, _) ->
+            this.sendSlot(index, *players)
         }
     }
 }

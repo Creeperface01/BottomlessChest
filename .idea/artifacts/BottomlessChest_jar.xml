@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BottomlessChest:jar">
+    <output-path>$PROJECT_DIR$/..</output-path>
+    <root id="archive" name="BottomlessChest.jar">
+      <element id="module-output" name="BottomlessChest" />
+    </root>
+  </artifact>
+</component>

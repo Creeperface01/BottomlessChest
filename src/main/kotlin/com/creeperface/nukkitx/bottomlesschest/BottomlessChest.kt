@@ -13,10 +13,10 @@ import cn.nukkit.event.player.PlayerInteractEvent
 import cn.nukkit.event.player.PlayerQuitEvent
 import cn.nukkit.inventory.transaction.action.SlotChangeAction
 import cn.nukkit.plugin.PluginBase
-import cn.nukkit.utils.TextFormat as TF
 import com.creeperface.nukkitx.bottomlesschest.blockentity.BlockEntityBottomlessChest
 import com.creeperface.nukkitx.bottomlesschest.inventory.BottomlessInventory
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
+import cn.nukkit.utils.TextFormat as TF
 
 /**
  * @author CreeperFace
@@ -78,14 +78,17 @@ class BottomlessChest : PluginBase(), Listener {
         val b = e.block as? BlockChest ?: return
         val be = b.level.getBlockEntity(b) as? BlockEntityChest ?: return
 
+        val chunk = b.level.getChunk(b.floorX shr 4, b.floorZ shr 4)
+        chunk.setChanged()
+
         if(action == Action.CREATE) {
             be.close()
             be.saveNBT()
 
-            val nbt = BlockEntity.getDefaultCompound(b, BlockEntity.CHEST)
+            val nbt = BlockEntity.getDefaultCompound(b, "BottomlessChest")
             nbt.putList(be.namedTag.getList("Items"))
 
-            BlockEntityBottomlessChest(b.level.getChunk(b.floorX shr 4, b.floorZ shr 4), nbt)
+            BlockEntityBottomlessChest(chunk, nbt)
             p.sendMessage("${TF.GREEN}Successfully removed bottom of the chest")
             e.setCancelled()
         } else {
@@ -100,7 +103,7 @@ class BottomlessChest : PluginBase(), Listener {
             val nbt = BlockEntity.getDefaultCompound(b, BlockEntity.CHEST)
             nbt.putList(be.namedTag.getList("Items"))
 
-            BlockEntityChest(b.level.getChunk(b.floorX shr 4, b.floorZ shr 4), nbt)
+            BlockEntityChest(chunk, nbt)
             p.sendMessage("${TF.GREEN}Successfully added the chest bottom back")
             e.setCancelled()
         }
